@@ -6,13 +6,6 @@ from sport_activities_features.hill_identification import HillIdentification
 from sport_activities_features.topographic_features import TopographicFeatures
 import time
 
-##df.describe(include=[float, int].columns
-##Pove kiri stolpci so pravega tipa
-
-#isna.sum
-
-#include=[object]
-#unique
 
 #Začatek timerja
 start = time.time()
