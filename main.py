@@ -1,5 +1,4 @@
 import csv
-import json
 import os
 from sport_activities_features import TCXFile
 from PodatkiClass import PodatkiClass
@@ -7,10 +6,19 @@ from sport_activities_features.hill_identification import HillIdentification
 from sport_activities_features.topographic_features import TopographicFeatures
 import time
 
+##df.describe(include=[float, int].columns
+##Pove kiri stolpci so pravega tipa
 
+#isna.sum
+
+#include=[object]
+#unique
+
+#Začatek timerja
 start = time.time()
 
 tcx_file = TCXFile()
+
 stevecID = 0
 
 BikingList = []
@@ -19,7 +27,6 @@ OtherList = []
 
 for root, dirs, files in os.walk("Sport5"):
    for datoteka in files:
-
        try:
            celaPot = os.path.join(root, datoteka)
 
@@ -32,7 +39,7 @@ for root, dirs, files in os.walk("Sport5"):
            Hill.identify_hills()
            all_hills = Hill.return_hills()
 
-           # extract features from data
+
            Top = TopographicFeatures(all_hills)
            num_hills = Top.num_of_hills()
            avg_altitude = Top.avg_altitude_of_hills(activity['altitudes'])
@@ -47,7 +54,7 @@ for root, dirs, files in os.walk("Sport5"):
            #print('distance_hills: ', distance_hills)
            #print('hills_share: ', hills_share)
 
-           print(stevecID)
+           #print(stevecID)
 
            podatki = PodatkiClass(stevecID, integral_metrics['activity_type'], integral_metrics['distance'],
                                   integral_metrics['duration'], integral_metrics['calories'],
@@ -74,12 +81,10 @@ listInDatoteka = {"bikingData.csv": BikingList, "runningData.csv": RunningList, 
 
 for datoteka, seznam in listInDatoteka.items():
     with open(datoteka, 'w', newline='') as csvfile:
-      # Write the header row to the CSV file.
       csv_writer = csv.writer(csvfile)
       csv_writer.writerow(['id', 'activity_type', 'distance', 'duration', 'calories', 'hr_avg', 'hr_max', 'hr_min', 'altitude_avg', 'altitude_max', 'altitude_min', 'ascent', 'descent', 'steps',
                            'num_hills', 'avg_altitude', 'avg_ascent', 'distance_hills', 'hills_share'])
 
-      # Iterate over the list of PodatkiClass objects and write each row to the CSV file.
       for podatki_object in seznam:
         csv_writer.writerow([podatki_object.id,
                             podatki_object.activity_type,
@@ -101,7 +106,7 @@ for datoteka, seznam in listInDatoteka.items():
                             podatki_object.distance_hills,
                             podatki_object.hills_share])
 
-      csvfile.close()
+    csvfile.close()
 
 end = time.time()
 temp = end-start
