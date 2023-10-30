@@ -1,10 +1,25 @@
 import pandas as pd
 
-df = pd.read_csv("bikingData.csv")
+import seaborn as sns
+
+# Za preinovanje headerja! #header = ['id', 'activity_type', 'distance', 'duration', 'calories', 'hr_avg', 'hr_max',
+# 'hr_min', 'altitude_avg', 'altitude_max', 'altitude_min', 'ascent', 'descent', 'steps', #
+# 'num_hills', 'avg_altitude', 'avg_ascent', 'distance_hills', 'hills_share', 'number_of_intervalsPower',
+# 'min_durationPower', 'max_durationPower', 'avg_durationPower', 'min_distancePower', 'max_distancePower',
+# 'avg_distancePower', 'number_of_intervalsHeart', #                           'min_duration_intervalHeart',
+# 'max_duration_intervalHeart', 'avg_duration_intervalHeart', 'min_distance_intervalHeart',
+# 'max_distance_intervalHeart', 'avg_distance_intervalHeart', 'min_heartrate_intervalHeart',
+# 'max_heartrate_intervalHeart', 'avg_heartrate_intervalHeart'] # #dfHeader = pd.read_csv("otherDataPandas.csv",
+# header=None) #new_header = ['new', 'column', 'names'] #dfHeader.to_csv("otherDataPandasHeaders.csv", header=header,
+# index=False)
 
 
-#print(df.describe(include=[float, int]))
+#Točka 1
+df = pd.read_csv("bikingDataPandas.csv")
 
+# print(df.describe(include=[float, int]))
+
+##Točka 2 in 3
 columns_described = df.select_dtypes(include=[float, int]).columns
 
 for col in columns_described:
@@ -16,64 +31,44 @@ for col in columns_described:
     column_min = df[col].min()
     manjkajoci = df[col].isna().sum()
 
-    print(f"Column: {col}, Mean: {column_mean}, Median: {column_median}, Max: {column_max}, Min: {column_min} Stevilo manjkajocih: {manjkajoci}")
+    print(
+        f"Column: {col}, Mean: {column_mean}, Median: {column_median}, Max: {column_max}, Min: {column_min} Stevilo manjkajocih: {manjkajoci}")
     print("--------------------------------------------------------------------------")
 
+##Točka 4? WtF
 
 
-from sport_activities_features.interval_identification import (
-    IntervalIdentificationByHeartRate,
-    IntervalIdentificationByPower,
-)
-from sport_activities_features.tcx_manipulation import TCXFile
+##Točka 5 in 6 - DONE v mainu
+
+# Točka 7
+
+dfKopija = pd.read_csv("dummy.csv")
+
+print(f"Odstranjen bo: {dfKopija.isna().sum().idxmax()} z vrednostjo: {dfKopija.isna().sum().max()}")
+dfOdstranjevanje = dfKopija.drop(columns=dfKopija.isna().sum().idxmax())
+dfOdstranjevanje.to_csv("dummyKopija.csv", index=False)
+
+#Točka 8
+
+df_min_max_scaled = dfKopija.copy()
+
+df_min_max_scaled["age"] = (df_min_max_scaled["age"] - df_min_max_scaled["age"].min()) / (df_min_max_scaled["age"].max() - df_min_max_scaled["age"].min())
+
+# view normalized data
+print(df_min_max_scaled)
 
 
-# Reading the TCX file
-tcx_file = TCXFile()
-activity = tcx_file.read_one_file('Sport5/1/1.tcx')
-
-# Identifying the intervals in the activity by power
-Intervals = IntervalIdentificationByPower(
-    activity['distances'],
-    activity['timestamps'],
-    activity['altitudes'],
-    mass=70
-)
-
-Intervals.identify_intervals()
-all_intervals_power = Intervals.return_intervals()
-all_intervals_power1 = Intervals.calculate_interval_statistics()
-
-print(all_intervals_power)
-print(all_intervals_power1)
-
-# Identifying the intervals in the activity by heart rate
-Intervals = IntervalIdentificationByHeartRate(
-    activity['distances'],
-    activity['timestamps'],
-    activity['altitudes'],
-    activity['heartrates'],
-)
-Intervals.identify_intervals()
-all_intervals_heart = Intervals.return_intervals()
-all_intervals_heart1 = Intervals.calculate_interval_statistics()
-
-print(all_intervals_heart1)
+#Točka 9
 
 
 
-data = {
-    'Name': ['Alice', 'Bob', 'Charlie', 'David', 'Eva'],
-    'BMI': [22.5, 18.9, 27.6, 30.2, 20.7]
-}
-
-df = pd.DataFrame(data)
+df = pd.read_csv("dummy.csv")
 
 # Define the ranges and labels for BMI categories
-bins = [0, 18.5, 24.9, 29.9, 100]  # Ranges for underweight, normal, overweight, and obese
-labels = ['Underweight', 'Normal weight', 'Overweight', 'Obese']
+bins = [0, 18.5, 30, 60, 100]  # Ranges for underweight, normal, overweight, and obese
+labels = ['Mlad', 'Srednje mlad', 'Star', 'Zelo star']
 
 # Discretize the 'BMI' column into categories
-df['BMI Category'] = pd.cut(df['BMI'], bins=bins, labels=labels, right=False)
+df['Diskretizacija'] = pd.cut(df['age'], bins=bins, labels=labels, right=False)
 
 print(df)
