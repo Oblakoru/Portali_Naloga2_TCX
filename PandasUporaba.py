@@ -1,19 +1,23 @@
 import os
-from pathlib import PurePath
+import warnings
 
+import numpy as np
 import pandas as pd
+
+warnings.filterwarnings("ignore")
 
 def remove_extension(filename):
     base, ext = os.path.splitext(filename)
     return base
 
-# Točka 1
 
-pot = "runningData.csv"
+# Točka 1
+pot = "runningDataPandas.csv"
 df = pd.read_csv(pot)
 
 ##Describe vrze error
 numericniStoplci = df.select_dtypes(include=[float, int]).columns
+
 
 for col in numericniStoplci:
     if col == "id":
@@ -39,7 +43,7 @@ for col in numericniStoplci:
 
 #Axis 0 pomen da gleda sam po vertikali
 steviloPraznih = df.isna().sum(axis=0)
-print(steviloPraznih)
+#print(steviloPraznih)
 stolpecZaOdstranitev = steviloPraznih.idxmax()
 
 
@@ -60,31 +64,29 @@ else:
 
 #dfNormalizacija = pd.read_csv(potDoDatotekeNormalizacija)
 
+
+
 df["caloriesNormalized"] = (df["calories"] - df["calories"].min()) / (df["calories"].max() - df["calories"].min())
 
 df.to_csv(f"{remove_extension(pot)}Normalizirano.csv", index=False)
 
 #print(dfNormalizacija)
 
-#Točka 8
+#Točka 8, 9, 10
 
-#df = pd.read_csv("bikingDataPandas.csv")
-
-bins = [0, 300, 500, 800, 1500]
-labels = ['Povprecen Trening', 'Dober Trening', 'Zelo dober Trening', 'Extremno dober trening']
+bins = [0, 500, 800, 1500, np.inf]
+labels = ['Povprecen', 'Izjemen', 'Zelo dober Trening', 'Neverjetno']
 
 df['Diskretizacija'] = pd.cut(df['calories'], bins=bins, labels=labels, right=False)
 
 df.to_csv(f"{remove_extension(pot)}Final.csv", index=False)
 
-#Točka 9
-
-df = pd.read_csv("runningDataFinal.csv")
+df = pd.read_csv("runningDataPandasFinal.csv")
 
 numericniStoplci = df.select_dtypes(include=[object]).columns
 
 for col in numericniStoplci:
-    print(df[col].unique())
+    print(f"Ime stolpca: {col} vrednosti: {df[col].unique()}")
 
 
 
