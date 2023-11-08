@@ -66,7 +66,7 @@ print(dfNormalizacija)
 
 df = pd.read_csv("bikingDataPandas.csv")
 
-
+#x
 
 bins = [0, 300, 500, 800, 1500]
 labels = ['Povrecen Trening', 'Dober Trening', 'Zelo dober Trening', 'Extremno dober trening']
