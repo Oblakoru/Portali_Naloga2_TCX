@@ -73,7 +73,7 @@ df.to_csv(f"{remove_extension(pot)}Normalizirano.csv", index=False)
 #print(dfNormalizacija)
 
 #Točka 8, 9, 10
-
+#
 bins = [0, 500, 800, 1500, np.inf]
 labels = ['Povprecen', 'Izjemen', 'Zelo dober Trening', 'Neverjetno']
 
