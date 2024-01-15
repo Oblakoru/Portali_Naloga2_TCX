@@ -36,9 +36,3 @@ class PodatkiClass():
         self.min_heartrateHeart = min_heartrateHeart
         self.max_heartrateHeart = max_heartrateHeart
         self.avg_heartrateHeart = avg_heartrateHeart
-
-
-
-
-#{'number_of_intervals': 10, 'min_duration': 4.0, 'max_duration': 237.0, 'avg_duration': 98.7, 'min_distance': 4.169921875, 'max_distance': 863.3798828125, 'avg_distance': 235.20001258850098}
-#{'number_of_intervals': 5, 'min_duration_interval': 54.0, 'max_duration_interval': 970.0, 'avg_duration_interval': 274.8, 'min_distance_interval': 152.7802734375, 'max_distance_interval': 3687.499755859375, 'avg_distance_interval': 1025.810009765625, 'min_heartrate_interval': 120.41059602649007, 'max_heartrate_interval': 140.17301750772398, 'avg_heartrate_interval': 129.31196086344173}
